@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ตารางเวร OPD</title>
+
+  <!-- อันนี้คือบัตรประจำตัวแอป ห้ามลบ ห้ามเปลี่ยนชื่อไฟล์ -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#14356b" />
+
+  <!-- สำหรับ iPhone/iPad ให้รู้จักว่านี่คือแอปได้เหมือนกัน -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    iframe {
+      width: 100%;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+    #splash {
+      position: fixed; inset: 0;
+      background: #14356b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      font-size: 16px;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="splash">กำลังโหลดตารางเวร...</div>
+
+  <!--
+    ★★★ จุดที่ต้องแก้ไข มีจุดเดียวในไฟล์นี้ทั้งหมด ★★★
+    บรรทัดถัดไปนี้ ให้เอา URL ของ Apps Script Web App ที่คุณใช้เปิด Mobile View อยู่ทุกวันนี้
+    มาแทนที่ข้อความ https://script.google.com/macros/s/AKfycbyfiQD3lBAu_BMk6FvG4-m8KPywh1-dtcfQ5Gg6RsoXI-TriZIFMMYxvNcCip7j9xlE/exec?view=mobile (
+    ตัวอย่างรูปแบบ URL ที่ถูกต้อง:
+    https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxxxxx/exec?view=mobile
+  -->
+  <iframe
+    id="appFrame"
+    src="YOUR_SCRIPT_URL_HERE"
+    onload="document.getElementById('splash').style.display='none'"
+  ></iframe>
+
+  <script>
+    // ลงทะเบียนตัวจำการติดตั้งแอป — ส่วนนี้ไม่ต้องแก้อะไร คัดลอกไปอย่างที่เป็น
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch((err) => {
+          console.log('ลงทะเบียน service worker ไม่สำเร็จ:', err);
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>
